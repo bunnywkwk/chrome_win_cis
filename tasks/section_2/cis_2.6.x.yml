@@ -1,0 +1,14 @@
+---
+- name: "2.6.1 | PATCH | Ensure 'Enable saving passwords to the password manager' is Explicitly Configured"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_6_1
+    - chrome_win_cis_password_manager_enabled is not none
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_2.6.1
+    - password_manager
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'PasswordManagerEnabled': chrome_win_cis_password_manager_enabled}) }}"

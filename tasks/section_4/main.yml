@@ -1,0 +1,12 @@
+---
+- name: "SECTION 4 | 4.1 Allow or deny screen capture"
+  ansible.builtin.import_tasks:
+    file: cis_4.1.x.yml
+
+- name: "SECTION 4 | 4.2 Content settings"
+  ansible.builtin.import_tasks:
+    file: cis_4.2.x.yml
+
+- name: "SECTION 4 | 4.x Data Loss Prevention"
+  ansible.builtin.import_tasks:
+    file: cis_4.x.yml

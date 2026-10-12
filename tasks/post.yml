@@ -1,0 +1,30 @@
+---
+- name: "POST | PATCH | Write the single-value policies"
+  ansible.windows.win_regedit:
+    path: "{{ chrome_win_cis_policy_key }}"
+    name: "{{ item.key }}"
+    data: "{{ item.value | int if item.value is boolean else item.value }}"
+    type: "{{ 'string' if item.value is string else 'dword' }}"
+  loop: "{{ chrome_win_cis_value_policies }}"
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: "POST | PATCH | Write the list policies"
+  ansible.builtin.include_tasks:
+    file: post_list.yml
+    apply:
+      tags:
+        - always
+  loop: "{{ chrome_win_cis_list_policies }}"
+  loop_control:
+    loop_var: chrome_win_cis_list
+    label: "{{ chrome_win_cis_list.key }}"
+
+- name: "POST | AUDIT | Report"
+  ansible.builtin.debug:
+    msg:
+      benchmark: "{{ chrome_win_cis_benchmark }}"
+      chrome: "{{ chrome_win_cis_installed }}"
+      policy_key: "{{ chrome_win_cis_policy_key }}"
+      policies_written: "{{ chrome_win_cis_policies | length }}"
+      levels: "Level 1 {{ 'on' if chrome_win_cis_level_1 else 'off' }}, Level 2 {{ 'on' if chrome_win_cis_level_2 else 'off' }}"

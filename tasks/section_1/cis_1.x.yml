@@ -1,0 +1,352 @@
+---
+- name: "1.3 | PATCH | Ensure 'Allow Google Cast to connect to Cast devices on all IP addresses' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_3
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.3
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'MediaRouterCastAllowAllIPs': false}) }}"
+
+- name: "1.4 | PATCH | Ensure 'Allow queries to a Google time service' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_4
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.4
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'BrowserNetworkTimeQueriesEnabled': true}) }}"
+
+- name: "1.5 | PATCH | Ensure 'Allow the audio sandbox to run' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_5
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.5
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AudioSandboxEnabled': true}) }}"
+
+- name: "1.6 | PATCH | Ensure 'Ask where to save each file before downloading' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_6
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.6
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'PromptForDownloadLocation': true}) }}"
+
+- name: "1.7 | PATCH | Ensure 'Continue running background apps when Google Chrome is closed' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_7
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.7
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'BackgroundModeEnabled': false}) }}"
+
+- name: "1.8 | PATCH | Ensure 'Control SafeSites adult content filtering' is set to 'Enabled: Filter top level sites (but not embedded iframes) for adult content'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_1_8
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_1.8
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SafeSitesFilterBehavior': 1}) }}"
+
+- name: "1.9 | PATCH | Ensure 'Determine the availability of variations' is set to 'Enable all variations'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_9
+    - chrome_win_cis_variations is not none
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_1.9
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ChromeVariations': chrome_win_cis_variations}) }}"
+
+- name: "1.10 | PATCH | Ensure 'Disable Certificate Transparency enforcement for a list of Legacy Certificate Authorities' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_10
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.10
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'CertificateTransparencyEnforcementDisabledForLegacyCas': []}) }}"
+
+- name: "1.11 | PATCH | Ensure 'Disable Certificate Transparency enforcement for a list of subjectPublicKeyInfo hashes' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_11
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.11
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'CertificateTransparencyEnforcementDisabledForCas': []}) }}"
+
+- name: "1.12 | PATCH | Ensure 'Disable Certificate Transparency enforcement for a list of URLs' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_12
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.12
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'CertificateTransparencyEnforcementDisabledForUrls': []}) }}"
+
+- name: "1.13 | PATCH | Ensure 'Disable saving browser history' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_13
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.13
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SavingBrowserHistoryDisabled': false}) }}"
+
+- name: "1.14 | PATCH | Ensure 'DNS interception checks enabled' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_14
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.14
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DNSInterceptionChecksEnabled': true}) }}"
+
+- name: "1.15 | PATCH | Ensure 'Enable component updates in Google Chrome' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_15
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.15
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ComponentUpdatesEnabled': true}) }}"
+
+- name: "1.16 | PATCH | Ensure 'Enable globally scoped HTTP auth cache' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_16
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.16
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'GloballyScopeHTTPAuthCacheEnabled': false}) }}"
+
+- name: "1.17 | PATCH | Ensure 'Enable online OCSP/CRL checks' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_17
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.17
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'EnableOnlineRevocationChecks': false}) }}"
+
+- name: "1.18 | PATCH | Ensure 'Enable security warnings for command-line flags' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_18
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.18
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'CommandLineFlagSecurityWarningsEnabled': true}) }}"
+
+- name: "1.19 | PATCH | Ensure 'Enable third party software injection blocking' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_19
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.19
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ThirdPartyBlockingEnabled': true}) }}"
+
+- name: "1.20 | PATCH | Ensure 'Enables managed extensions to use the Enterprise Hardware Platform API' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_20
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.20
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'EnterpriseHardwarePlatformAPIEnabled': false}) }}"
+
+- name: "1.21 | PATCH | Ensure 'Ephemeral profile' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_21
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.21
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ForceEphemeralProfiles': false}) }}"
+
+- name: "1.22 | PATCH | Ensure 'Import autofill form data from default browser on first run' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_22
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.22
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ImportAutofillFormData': false}) }}"
+
+- name: "1.23 | PATCH | Ensure 'Import of homepage from default browser on first run' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_23
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.23
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ImportHomepage': false}) }}"
+
+- name: "1.24 | PATCH | Ensure 'Import search engines from default browser on first run' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_24
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.24
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ImportSearchEngine': false}) }}"
+
+- name: "1.25 | PATCH | Ensure 'List of names that will bypass the HSTS policy check' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_25
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.25
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'HSTSPolicyBypassList': []}) }}"
+
+- name: "1.26 | PATCH | Ensure 'Origins or hostname patterns for which restrictions on insecure origins should not apply' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_26
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.26
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'OverrideSecurityRestrictionsOnInsecureOrigin': []}) }}"
+
+- name: "1.27 | PATCH | Ensure 'Suppress lookalike domain warnings on domains' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_27
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.27
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'LookalikeWarningAllowlistDomains': []}) }}"
+
+- name: "1.28 | PATCH | Ensure 'Suppress the unsupported OS warning' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_28
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.28
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SuppressUnsupportedOSWarning': false}) }}"
+
+- name: "1.29 | PATCH | Ensure 'URLs for which local IPs are exposed in WebRTC ICE candidates' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_29
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.29
+    - enforced_defaults
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'WebRtcLocalIpsAllowedUrls': []}) }}"

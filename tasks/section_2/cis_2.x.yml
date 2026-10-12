@@ -1,0 +1,288 @@
+---
+- name: "2.11 | PATCH | Ensure 'Allow download restrictions' is set to 'Enabled: Block malicious downloads'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_11
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.11
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DownloadRestrictions': 4}) }}"
+
+- name: "2.12 | PATCH | Ensure 'Allow proceeding from the SSL warning page' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_2_12
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_2.12
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SSLErrorOverrideAllowed': false}) }}"
+
+- name: "2.13 | PATCH | Ensure 'Disable proceeding from the Safe Browsing warning page' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_13
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.13
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DisableSafeBrowsingProceedAnyway': true}) }}"
+
+- name: "2.14 | PATCH | Ensure 'Require Site Isolation for every site' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_14
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.14
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SitePerProcess': true}) }}"
+
+- name: "2.15 | PATCH | Ensure 'Force Google SafeSearch' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_2_15
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_2.15
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ForceGoogleSafeSearch': true}) }}"
+
+- name: "2.16 | PATCH | Ensure 'Notify a user that a browser relaunch or device restart is recommended or required' is set to 'Enabled: Show a recurring prompt to the user indication that a relaunch is required'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_16
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.16
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RelaunchNotification': 2}) }}"
+
+- name: "2.17 | PATCH | Ensure 'Proxy settings' is set to 'Enabled' and does not contain \"ProxyMode\": \"auto_detect\""
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_17
+    - chrome_win_cis_proxy_mode is not none
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.17
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ProxyMode': chrome_win_cis_proxy_mode}) }}"
+
+- name: "2.18 | PATCH | Ensure 'Require online OCSP/CRL checks for local trust anchors' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_2_18
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_2.18
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RequireOnlineRevocationChecksForLocalAnchors': true}) }}"
+
+- name: "2.19 | PATCH | Ensure 'Set the time period for update notifications' is set to 'Enabled: 86400000'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_19
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.19
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RelaunchNotificationPeriod': 86400000}) }}"
+
+- name: "2.20 | PATCH | Ensure 'Allow Web Authentication requests on sites with broken TLS certificates' Is Disabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_20
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.20
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AllowWebAuthnWithBrokenTlsCerts': false}) }}"
+
+- name: "2.21 | PATCH | Ensure 'Allow reporting of domain reliability related data' Is Disabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_21
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.21
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DomainReliabilityAllowed': false}) }}"
+
+- name: "2.22 | PATCH | Ensure 'Enable TLS Encrypted ClientHello' Is Enabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_22
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.22
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'EncryptedClientHelloEnabled': true}) }}"
+
+- name: "2.23 | PATCH | Ensure 'Determines whether the built-in certificate verifier will enforce constraints encoded into trust anchors loaded from the platform trust store' Is Enabled"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_2_23
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_2.23
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'EnforceLocalAnchorConstraintsEnabled': true}) }}"
+
+- name: "2.24 | PATCH | Ensure 'Keep browsing data when creating enterprise profile by default' Is Enabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_24
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.24
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'EnterpriseProfileCreationKeepBrowsingData': true}) }}"
+
+- name: "2.25 | PATCH | Ensure 'Allow file or directory picker APIs to be called without prior user gesture' Is Disabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_25
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.25
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'FileOrDirectoryPickerWithoutGestureAllowedForOrigins': []}) }}"
+
+- name: "2.26 | PATCH | Ensure 'Enable Google Search Side Panel' Is Disabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_26
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.26
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'GoogleSearchSidePanelEnabled': false}) }}"
+
+- name: "2.27 | PATCH | Ensure 'Http Allowlist' Is Properly Configured"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_27
+    - chrome_win_cis_http_allowlist | length > 0
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_2.27
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'HttpAllowlist': chrome_win_cis_http_allowlist}) }}"
+
+- name: "2.28 | PATCH | Ensure 'Enable automatic HTTPS upgrades' Is Enabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_28
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.28
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'HttpsUpgradesEnabled': true}) }}"
+
+- name: "2.29 | PATCH | Ensure 'Insecure Hashes in TLS Handshakes Enabled' Is Disabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_29
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.29
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'InsecureHashesInTLSHandshakesEnabled': false}) }}"
+
+- name: "2.30 | PATCH | Ensure 'Enable Renderer App Container' Is Enabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_30
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.30
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RendererAppContainerEnabled': true}) }}"
+
+- name: "2.31 | PATCH | Ensure 'Enable strict MIME type checking for worker scripts' Is Enabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_31
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.31
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'StrictMimetypeCheckForWorkerScriptsEnabled': true}) }}"
+
+- name: "2.32 | PATCH | Ensure 'Allow remote debugging' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_32
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.32
+    - attack_surface
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteDebuggingAllowed': false}) }}"

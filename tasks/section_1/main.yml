@@ -1,0 +1,12 @@
+---
+- name: "SECTION 1 | 1.1 HTTP authentication"
+  ansible.builtin.import_tasks:
+    file: cis_1.1.x.yml
+
+- name: "SECTION 1 | 1.2 Safe Browsing settings"
+  ansible.builtin.import_tasks:
+    file: cis_1.2.x.yml
+
+- name: "SECTION 1 | 1.x Enforced Defaults"
+  ansible.builtin.import_tasks:
+    file: cis_1.x.yml

@@ -1,0 +1,39 @@
+---
+- name: "5.1 | PATCH | Ensure 'Enable guest mode in browser' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_5_1
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_5.1
+    - forensics
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'BrowserGuestModeEnabled': false}) }}"
+
+- name: "5.2 | PATCH | Ensure 'Incognito mode availability' is set to 'Enabled: Incognito mode disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_5_2
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_5.2
+    - forensics
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'IncognitoModeAvailability': 1}) }}"
+
+- name: "5.3 | PATCH | Ensure 'Set disk cache size, in bytes' is set to 'Enabled: 250609664'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_5_3
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_5.3
+    - forensics
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DiskCacheSize': 250609664}) }}"

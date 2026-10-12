@@ -1,0 +1,106 @@
+---
+- name: "2.3.1 | PATCH | Ensure 'Blocks external extensions from being installed' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_3_1
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.3.1
+    - extensions
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'BlockExternalExtensions': true}) }}"
+
+- name: "2.3.2 | PATCH | Ensure 'Configure allowed app/extension types' is set to 'Enabled: extension, hosted_app, platform_app, theme'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_3_2
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.3.2
+    - extensions
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ExtensionAllowedTypes': ['extension', 'hosted_app', 'platform_app', 'theme']}) }}"
+
+- name: "2.3.3 | PATCH | Ensure 'Configure extension installation blocklist' is set to 'Enabled: *'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_3_3
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.3.3
+    - extensions
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ExtensionInstallBlocklist': ['*']}) }}"
+
+- name: "2.3.3 | PATCH | Ensure 'Configure extension installation blocklist' is set to 'Enabled: *' | ExtensionInstallAllowlist"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_3_3
+    - chrome_win_cis_extension_allowlist | length > 0
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.3.3
+    - extensions
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ExtensionInstallAllowlist': chrome_win_cis_extension_allowlist}) }}"
+
+- name: "2.3.4 | PATCH | Ensure 'Default third-party storage partitioning setting' Is Enabled and Blocked"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_2_3_4
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_2.3.4
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultThirdPartyStoragePartitioningSetting': 2}) }}"
+
+- name: "2.3.5 | PATCH | Ensure 'Block third-party storage partitioning for these origins' Is Configured"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_3_5
+    - chrome_win_cis_third_party_storage_blocked_origins | length > 0
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_2.3.5
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ThirdPartyStoragePartitioningBlockedForOrigins': chrome_win_cis_third_party_storage_blocked_origins}) }}"
+
+- name: "2.3.6 | PATCH | Ensure 'Control Manifest v2 extension availability' Is Set to Forced Only"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_2_3_6
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_2.3.6
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ExtensionManifestV2Availability': 3}) }}"
+
+- name: "2.3.7 | PATCH | Ensure 'Control availability of extensions unpublished on the Chrome Web Store' Is Disabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_3_7
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.3.7
+    - extensions
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ExtensionUnpublishedAvailability': 1}) }}"

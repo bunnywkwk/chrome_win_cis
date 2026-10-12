@@ -1,0 +1,35 @@
+---
+- name: "PRELIM | AUDIT | Check ansible-core version"
+  ansible.builtin.assert:
+    that:
+      - ansible_version.full is version('2.16.1', '>=')
+    fail_msg: "chrome_win_cis needs ansible-core >= 2.16.1 (found {{ ansible_version.full }})."
+
+- name: "PRELIM | AUDIT | Check the target is Windows"
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['os_family'] == 'Windows'
+    fail_msg: "Unsupported target: {{ ansible_facts['distribution'] }}. chrome_win_cis supports Windows only."
+
+- name: "PRELIM | AUDIT | Find chrome.exe"
+  ansible.windows.win_stat:
+    path: "{{ item }}"
+    get_checksum: false
+  loop: "{{ chrome_win_cis_exe_paths }}"
+  register: discovered_chrome_win_cis_exe
+
+- name: "PRELIM | AUDIT | Stop when Chrome is not installed and install is off"
+  when:
+    - chrome_win_cis_installed | length == 0
+    - not chrome_win_cis_install
+  block:
+    - name: "PRELIM | AUDIT | Stop when Chrome is not installed and install is off | Report"
+      ansible.builtin.debug:
+        msg: "No Google Chrome on {{ inventory_hostname }} and chrome_win_cis_install is false: nothing to harden."
+
+    - name: "PRELIM | AUDIT | Stop when Chrome is not installed and install is off | End this host"
+      ansible.builtin.meta: end_host
+
+- name: "PRELIM | AUDIT | Start the policy set"
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: {}

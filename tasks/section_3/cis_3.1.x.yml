@@ -1,0 +1,26 @@
+---
+- name: "3.1.1 | PATCH | Ensure 'Default cookies setting' is set to 'Enabled: Keep cookies for the duration of the session'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_3_1_1
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_3.1.1
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultCookiesSetting': 4}) }}"
+
+- name: "3.1.2 | PATCH | Ensure 'Default geolocation setting' is set to 'Enabled: Do not allow any site to track the users' physical location'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_1_2
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.1.2
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultGeolocationSetting': 2}) }}"

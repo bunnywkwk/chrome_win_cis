@@ -1,0 +1,42 @@
+---
+- name: PRELIM | Checks, Chrome detection, start the policy set
+  ansible.builtin.import_tasks:
+    file: prelim.yml
+  tags:
+    - always
+
+- name: INSTALL | Google Chrome (opt-in)
+  when: chrome_win_cis_install
+  ansible.builtin.import_tasks:
+    file: install.yml
+
+- name: SECTION 1 | Enforced Defaults
+  when: chrome_win_cis_section1
+  ansible.builtin.import_tasks:
+    file: section_1/main.yml
+
+- name: SECTION 2 | Attack Surface Reduction
+  when: chrome_win_cis_section2
+  ansible.builtin.import_tasks:
+    file: section_2/main.yml
+
+- name: SECTION 3 | Privacy
+  when: chrome_win_cis_section3
+  ansible.builtin.import_tasks:
+    file: section_3/main.yml
+
+- name: SECTION 4 | Data Loss Prevention
+  when: chrome_win_cis_section4
+  ansible.builtin.import_tasks:
+    file: section_4/main.yml
+
+- name: SECTION 5 | Forensics
+  when: chrome_win_cis_section5
+  ansible.builtin.import_tasks:
+    file: section_5/main.yml
+
+- name: POST | Write the policies and report
+  ansible.builtin.import_tasks:
+    file: post.yml
+  tags:
+    - always

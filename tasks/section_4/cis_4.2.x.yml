@@ -1,0 +1,108 @@
+---
+- name: "4.2.1 | PATCH | Ensure 'Control use of the Serial API' is set to 'Enabled: Do not allow any site to request access to serial ports via the Serial API'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_2_1
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.2.1
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultSerialGuardSetting': 2}) }}"
+
+- name: "4.2.2 | PATCH | Ensure 'Default Sensors Setting' is set to 'Enabled: Do not allow any site to access sensors'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_2_2
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.2.2
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultSensorsSetting': 2}) }}"
+
+- name: "4.2.3 | PATCH | Ensure 'Allow clipboard for these sites' Is Configured"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_4_2_3
+    - chrome_win_cis_clipboard_allowed_urls | length > 0
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_4.2.3
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ClipboardAllowedForUrls': chrome_win_cis_clipboard_allowed_urls}) }}"
+
+- name: "4.2.4 | PATCH | Ensure 'Block clipboard on these sites' Is Configured"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_4_2_4
+    - chrome_win_cis_clipboard_blocked_urls | length > 0
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_4.2.4
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ClipboardBlockedForUrls': chrome_win_cis_clipboard_blocked_urls}) }}"
+
+- name: "4.2.5 | PATCH | Ensure 'Default clipboard setting' Is 'Enabled' to 'Deny Permissions'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_4_2_5
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_4.2.5
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultClipboardSetting': 2}) }}"
+
+- name: "4.2.6 | PATCH | Ensure 'Default Window Management permissions setting' Is 'Enabled' to 'Deny Permission'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_2_6
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.2.6
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultWindowManagementSetting': 2}) }}"
+
+- name: "4.2.7 | PATCH | Ensure 'Allow Window Management permission on these sites' Is Configured"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_2_7
+    - chrome_win_cis_window_management_allowed_urls | length > 0
+  tags:
+    - level2
+    - manual
+    - patch
+    - rule_4.2.7
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'WindowManagementAllowedForUrls': chrome_win_cis_window_management_allowed_urls}) }}"
+
+- name: "4.2.8 | PATCH | Ensure 'Block Window Management permission on these sites' Is Configured"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_2_8
+    - chrome_win_cis_window_management_blocked_urls | length > 0
+  tags:
+    - level2
+    - manual
+    - patch
+    - rule_4.2.8
+    - content_settings
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'WindowManagementBlockedForUrls': chrome_win_cis_window_management_blocked_urls}) }}"

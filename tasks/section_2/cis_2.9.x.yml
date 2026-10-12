@@ -1,0 +1,13 @@
+---
+- name: "2.9.1 | PATCH | Ensure 'Enable First-Party Sets' Is Disabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_9_1
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_2.9.1
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'FirstPartySetsEnabled': false}) }}"

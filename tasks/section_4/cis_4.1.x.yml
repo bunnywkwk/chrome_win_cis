@@ -1,0 +1,13 @@
+---
+- name: "4.1.1 | PATCH | Ensure 'Allow or deny screen capture' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_1_1
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.1.1
+    - screen_capture
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ScreenCaptureAllowed': false}) }}"

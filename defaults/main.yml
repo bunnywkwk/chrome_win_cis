@@ -1,0 +1,495 @@
+---
+# CIS Google Chrome Benchmark v3.0.0 for Windows 10/11. Override any of these in group_vars.
+
+## Install
+
+# Install Google Chrome (Enterprise MSI from Google); false = harden an existing install only
+chrome_win_cis_install: false
+
+## Profiles
+
+chrome_win_cis_level_1: true
+
+# Level 2 limits functionality; keep level 1 on as well
+chrome_win_cis_level_2: false
+
+## Sections
+
+chrome_win_cis_section1: true   # Enforced Defaults
+chrome_win_cis_section2: true   # Attack Surface Reduction
+chrome_win_cis_section3: true   # Privacy
+chrome_win_cis_section4: true   # Data Loss Prevention
+chrome_win_cis_section5: true   # Forensics
+
+## Rules
+# Set a rule to false to skip it (its registry value stays until you delete it). Site values (null / []) are only applied once set.
+
+## Section 1: Enforced Defaults
+
+### 1.1 HTTP authentication
+
+# 1.1.1 No login pop-ups from other sites embedded in a page
+chrome_win_cis_rule_1_1_1: true
+
+### 1.2 Safe Browsing
+
+# 1.2.1 No sites exempt from Safe Browsing warnings
+chrome_win_cis_rule_1_2_1: true
+
+# 1.2.2 Safe Browsing protection level
+chrome_win_cis_rule_1_2_2: true
+
+# 1.2.2 value: 1 = standard, 2 = enhanced (sends more data to Google)
+chrome_win_cis_safe_browsing_protection_level: null
+
+### 1.x Other
+
+# 1.3 Cast only to devices on private IPs, not public ones
+chrome_win_cis_rule_1_3: true
+
+# 1.4 Use Google's time service so certificate checks use the right time
+chrome_win_cis_rule_1_4: true
+
+# 1.5 Run audio in a sandbox
+chrome_win_cis_rule_1_5: true
+
+# 1.6 Ask where to save each download
+chrome_win_cis_rule_1_6: true
+
+# 1.7 Stop apps and extensions when Chrome is closed
+chrome_win_cis_rule_1_7: true
+
+# 1.8 Filter adult sites
+chrome_win_cis_rule_1_8: true
+
+# 1.9 Allow all Chrome variations (Google's gradual fixes)
+chrome_win_cis_rule_1_9: true
+
+# 1.9 value: 0 = all variations (the CIS value)
+chrome_win_cis_variations: null
+
+# 1.11 No certificate authorities exempt from Certificate Transparency
+chrome_win_cis_rule_1_11: true
+
+# 1.12 No URLs exempt from Certificate Transparency
+chrome_win_cis_rule_1_12: true
+
+# 1.13 Keep browsing history
+chrome_win_cis_rule_1_13: true
+
+# 1.14 Check for DNS hijacking
+chrome_win_cis_rule_1_14: true
+
+# 1.15 Keep Chrome components updated
+chrome_win_cis_rule_1_15: true
+
+# 1.16 Don't share HTTP login credentials between sites
+chrome_win_cis_rule_1_16: true
+
+# 1.17 No online OCSP/CRL checks (Chrome's own revocation list is used)
+chrome_win_cis_rule_1_17: true
+
+# 1.18 Warn when Chrome starts with dangerous command-line flags
+chrome_win_cis_rule_1_18: true
+
+# 1.20 Extensions can't use the hardware platform API
+chrome_win_cis_rule_1_20: true
+
+# 1.21 Keep profile data on disk
+chrome_win_cis_rule_1_21: true
+
+# 1.22 Don't import autofill data from another browser
+chrome_win_cis_rule_1_22: true
+
+# 1.23 Don't import the homepage from another browser
+chrome_win_cis_rule_1_23: true
+
+# 1.24 Don't import the search engine from another browser
+chrome_win_cis_rule_1_24: true
+
+# 1.25 No hosts exempt from HSTS (HTTPS-only)
+chrome_win_cis_rule_1_25: true
+
+# 1.26 No insecure sites treated as secure
+chrome_win_cis_rule_1_26: true
+
+# 1.27 Keep warnings for look-alike (phishing) domains
+chrome_win_cis_rule_1_27: true
+
+# 1.28 Warn when the operating system is no longer supported
+chrome_win_cis_rule_1_28: true
+
+# 1.29 WebRTC doesn't reveal local IP addresses
+chrome_win_cis_rule_1_29: true
+
+## Section 2: Attack Surface Reduction
+
+### 2.1 Google Update
+
+# 2.1.1 Chrome updates itself (only on machines joined to an AD domain)
+chrome_win_cis_rule_2_1_1: true
+
+# 2.1.1 value: 1 = always allow updates, 3 = automatic silent updates only
+chrome_win_cis_update_policy: 1
+
+# 2.1.2 Update checks not turned off (only on machines joined to an AD domain)
+chrome_win_cis_rule_2_1_2: true
+
+# 2.1.2 value: minutes between update checks, anything but 0 (CIS default value: 1400)
+chrome_win_cis_update_check_minutes: 1400
+
+### 2.2 Content settings
+
+# 2.2.1 Block HTTP content inside HTTPS pages
+chrome_win_cis_rule_2_2_1: true
+
+# 2.2.2 Sites can't use Bluetooth devices
+chrome_win_cis_rule_2_2_2: true
+
+# 2.2.3 Sites can't use USB devices
+# WARNING: blocks WebUSB: some USB devices and security keys stop working in web apps
+chrome_win_cis_rule_2_2_3: true
+
+# 2.2.4 Sites can't show notifications
+chrome_win_cis_rule_2_2_4: true
+
+# 2.2.5 Sites can't open local files in the PDF viewer
+chrome_win_cis_rule_2_2_5: true
+
+### 2.3 Extensions
+
+# 2.3.1 Only extensions from the Chrome Web Store
+chrome_win_cis_rule_2_3_1: true
+
+# 2.3.2 Only these extension types: extension, hosted app, platform app, theme
+chrome_win_cis_rule_2_3_2: true
+
+# 2.3.3 Block all extensions except the allowlist below
+# WARNING: removes EVERY installed extension except chrome_win_cis_extension_allowlist
+chrome_win_cis_rule_2_3_3: true
+
+# 2.3.3 value: extension IDs still allowed, e.g. a password manager
+chrome_win_cis_extension_allowlist: []
+
+# 2.3.7 Disable extensions removed from the Web Store
+chrome_win_cis_rule_2_3_7: true
+
+### 2.4 HTTP authentication
+
+# 2.4.1 Only NTLM and Negotiate login on websites
+# WARNING: only ntlm/negotiate login: sites using Basic/Digest auth stop working
+chrome_win_cis_rule_2_4_1: true
+
+### 2.5 Native Messaging
+
+# 2.5.1 Extensions can't talk to local programs except the allowlist below
+# WARNING: extensions cannot talk to local programs (password managers, GNOME extensions)
+chrome_win_cis_rule_2_5_1: true
+
+# 2.5.1 value: native messaging hosts still allowed
+chrome_win_cis_native_messaging_allowlist: []
+
+### 2.6 Password manager
+
+# 2.6.1 Chrome's password manager on or off
+chrome_win_cis_rule_2_6_1: true
+
+# 2.6.1 value: true or false
+chrome_win_cis_password_manager_enabled: null
+
+### 2.7 Printing
+
+### 2.8 Remote access (Chrome Remote Desktop)
+
+# 2.8.1 Chrome Remote Desktop to this machine
+chrome_win_cis_rule_2_8_1: true
+
+# 2.8.1 value: false (CIS), or true if Chrome Remote Desktop is approved
+chrome_win_cis_remote_access_connections: null
+
+# 2.8.2 Remote users can't control elevated windows
+chrome_win_cis_rule_2_8_2: true
+
+# 2.8.3 Domains allowed to connect with Chrome Remote Desktop
+chrome_win_cis_rule_2_8_3: true
+
+# 2.8.3 value: e.g. ["example.com"]
+chrome_win_cis_remote_access_client_domains: []
+
+# 2.8.4 Person at the machine can see the remote session
+chrome_win_cis_rule_2_8_4: true
+
+# 2.8.5 No remote access through firewalls
+chrome_win_cis_rule_2_8_5: true
+
+# 2.8.6 Remote access needs the PIN every time
+chrome_win_cis_rule_2_8_6: true
+
+# 2.8.7 No relay servers for remote access
+chrome_win_cis_rule_2_8_7: true
+
+### 2.9 First-Party Sets
+
+### 2.10 Microsoft Active Directory
+
+# 2.10.1 Sign in to sites with the Windows Microsoft cloud account
+chrome_win_cis_rule_2_10_1: true
+
+### 2.x Other
+
+# 2.11 Block downloads Safe Browsing marks as dangerous
+chrome_win_cis_rule_2_11: true
+
+# 2.12 Users can't click through certificate errors
+# WARNING: users cannot click through certificate errors: internal sites with bad certs become unreachable
+chrome_win_cis_rule_2_12: true
+
+# 2.13 Users can't click through Safe Browsing warnings
+chrome_win_cis_rule_2_13: true
+
+# 2.14 Each site runs in its own process
+chrome_win_cis_rule_2_14: true
+
+# 2.15 Google SafeSearch always on
+chrome_win_cis_rule_2_15: true
+
+# 2.16 Force a restart after an update
+chrome_win_cis_rule_2_16: true
+
+# 2.17 Proxy is set, never auto-detected
+chrome_win_cis_rule_2_17: true
+
+# 2.17 value: "direct" or "system" (never "auto_detect")
+chrome_win_cis_proxy_mode: null
+
+# 2.18 Always check revocation of certificates from local CAs
+# WARNING: certificates from local CAs fail if the OCSP/CRL server is down
+chrome_win_cis_rule_2_18: true
+
+# 2.19 Restart within 24 hours after an update
+chrome_win_cis_rule_2_19: true
+
+# 2.20 No security keys on sites with broken certificates
+chrome_win_cis_rule_2_20: true
+
+# 2.21 Don't send reliability data to Google
+chrome_win_cis_rule_2_21: true
+
+# 2.22 Hide the site name in the TLS handshake (Encrypted Client Hello)
+chrome_win_cis_rule_2_22: true
+
+# 2.24 Keep browsing data when an enterprise profile is created
+chrome_win_cis_rule_2_24: true
+
+# 2.25 No sites open file pickers without a click
+chrome_win_cis_rule_2_25: true
+
+# 2.26 No Google search side panel
+chrome_win_cis_rule_2_26: true
+
+# 2.27 HTTP-only sites allowed despite HTTPS upgrades
+chrome_win_cis_rule_2_27: true
+
+# 2.27 value: e.g. ["intranet.example.com"]
+chrome_win_cis_http_allowlist: []
+
+# 2.28 Upgrade HTTP to HTTPS when possible
+chrome_win_cis_rule_2_28: true
+
+# 2.30 Renderer App Container sandbox
+# WARNING: third-party software that injects into Chrome (some antivirus/DLP tools) stops working
+chrome_win_cis_rule_2_30: true
+
+# 2.31 Worker scripts need a proper JavaScript MIME type
+chrome_win_cis_rule_2_31: true
+
+# 2.32 No remote debugging
+chrome_win_cis_rule_2_32: true
+
+## Section 3: Privacy
+
+### 3.1 Content settings
+
+# 3.1.1 Delete cookies when Chrome closes
+# WARNING: cookies deleted when Chrome closes: users are logged out of every site
+chrome_win_cis_rule_3_1_1: true
+
+# 3.1.2 Sites can't see your location
+chrome_win_cis_rule_3_1_2: true
+
+### 3.2 Google Cast
+
+# 3.2.1 No Google Cast
+chrome_win_cis_rule_3_2_1: true
+
+### 3.x Other
+
+# 3.3 Sites can't ask which payment methods are saved
+chrome_win_cis_rule_3_3: true
+
+# 3.4 Block third-party cookies
+chrome_win_cis_rule_3_4: true
+
+# 3.5 No signing in to Chrome with a Google account
+chrome_win_cis_rule_3_5: true
+
+# 3.7 No sync to Google's cloud
+chrome_win_cis_rule_3_7: true
+
+# 3.8 Don't send navigation errors to Google
+chrome_win_cis_rule_3_8: true
+
+# 3.9 Users can't delete browsing history
+chrome_win_cis_rule_3_9: true
+
+# 3.10 No preloading of pages the user didn't open
+chrome_win_cis_rule_3_10: true
+
+# 3.11 Don't send typed text to Google's spell check
+chrome_win_cis_rule_3_11: true
+
+# 3.12 Don't send usage and crash reports to Google
+chrome_win_cis_rule_3_12: true
+
+# 3.13 Safe Browsing checks downloads from trusted sources too
+chrome_win_cis_rule_3_13: true
+
+# 3.14 No search suggestions while typing in the address bar
+chrome_win_cis_rule_3_14: true
+
+# 3.15 No Google Translate
+chrome_win_cis_rule_3_15: true
+
+# 3.16 Don't send visited URLs to Google
+chrome_win_cis_rule_3_16: true
+
+## Section 4: Data Loss Prevention
+
+### 4.1 Screen capture
+
+# 4.1.1 Sites can't capture the screen
+# WARNING: no screen sharing in web meetings (also covers 4.12)
+chrome_win_cis_rule_4_1_1: true
+
+### 4.2 Content settings
+
+# 4.2.1 Sites can't use serial ports
+chrome_win_cis_rule_4_2_1: true
+
+# 4.2.2 Sites can't read device sensors
+chrome_win_cis_rule_4_2_2: true
+
+# 4.2.3 Sites allowed to read the clipboard
+chrome_win_cis_rule_4_2_3: true
+
+# 4.2.3 value: e.g. ["https://app.example.com"]
+chrome_win_cis_clipboard_allowed_urls: []
+
+# 4.2.4 Sites never allowed to read the clipboard
+chrome_win_cis_rule_4_2_4: true
+
+# 4.2.4 value: e.g. ["[*.]example.org"]
+chrome_win_cis_clipboard_blocked_urls: []
+
+# 4.2.5 Sites can't read the clipboard
+chrome_win_cis_rule_4_2_5: true
+
+# 4.2.6 Sites can't move or open windows on other screens
+chrome_win_cis_rule_4_2_6: true
+
+# 4.2.7 Sites allowed to manage windows
+chrome_win_cis_rule_4_2_7: true
+
+# 4.2.7 value: e.g. ["https://app.example.com"]
+chrome_win_cis_window_management_allowed_urls: []
+
+# 4.2.8 Sites never allowed to manage windows
+chrome_win_cis_rule_4_2_8: true
+
+# 4.2.8 value: e.g. ["[*.]example.org"]
+chrome_win_cis_window_management_blocked_urls: []
+
+### 4.x Other
+
+# 4.3 No file upload or save dialogs
+# WARNING: no file upload or "save as" dialogs
+chrome_win_cis_rule_4_3: true
+
+# 4.4 Sites can't use the microphone
+# WARNING: no microphone for websites (web calls lose audio)
+chrome_win_cis_rule_4_4: true
+
+# 4.5 Sites can't use the camera
+# WARNING: no camera for websites (web calls lose video)
+chrome_win_cis_rule_4_5: true
+
+# 4.6 No feedback to Google
+chrome_win_cis_rule_4_6: true
+
+# 4.7 DNS only over HTTPS, no fallback
+# WARNING: DNS-over-HTTPS only: DNS fails without a DoH server and bypasses company DNS filtering
+chrome_win_cis_rule_4_7: true
+
+# 4.8 Don't save addresses for autofill
+chrome_win_cis_rule_4_8: true
+
+# 4.9 Don't save credit cards for autofill
+chrome_win_cis_rule_4_9: true
+
+# 4.10 Don't import saved passwords from another browser
+chrome_win_cis_rule_4_10: true
+
+# 4.11 Never sync passwords
+chrome_win_cis_rule_4_11: true
+
+# 4.12 Sites can't capture the screen (same policy as 4.1.1): follows chrome_win_cis_rule_4_1_1, no own switch
+
+## Section 5: Forensics
+
+### 5.x Other
+
+# 5.1 No guest mode
+chrome_win_cis_rule_5_1: true
+
+# 5.2 No incognito mode
+chrome_win_cis_rule_5_2: true
+
+# 5.3 Keep a 239 MB disk cache
+chrome_win_cis_rule_5_3: true
+
+## Not applicable on current Chrome
+# On by default, like every rule. These policies were removed from Chrome, so chrome://policy shows them as
+# "Unknown policy"; set one to false in group_vars to stop writing it.
+
+# 1.10 No legacy CAs exempt from Certificate Transparency
+chrome_win_cis_rule_1_10: true
+
+# 1.19 Block third-party software injection
+chrome_win_cis_rule_1_19: true
+
+# 2.3.4 Partition third-party storage by top-level site
+chrome_win_cis_rule_2_3_4: true
+
+# 2.3.5 Sites where third-party storage partitioning is turned off
+chrome_win_cis_rule_2_3_5: true
+
+# 2.3.5 value: e.g. ["https://example.com"]
+chrome_win_cis_third_party_storage_blocked_origins: []
+
+# 2.3.6 Manifest V2 extensions only when forced by the admin
+chrome_win_cis_rule_2_3_6: true
+
+# 2.7.1 No Google Cloud Print proxy
+chrome_win_cis_rule_2_7_1: true
+
+# 2.9.1 No First-Party Sets
+chrome_win_cis_rule_2_9_1: true
+
+# 2.23 Enforce constraints in local trust anchors
+chrome_win_cis_rule_2_23: true
+
+# 2.29 No insecure hashes in TLS handshakes
+chrome_win_cis_rule_2_29: true
+
+# 3.6 No Chrome Cleanup reports to Google
+chrome_win_cis_rule_3_6: true

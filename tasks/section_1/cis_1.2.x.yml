@@ -1,0 +1,27 @@
+---
+- name: "1.2.1 | PATCH | Ensure 'Configure the list of domains on which Safe Browsing will not trigger warnings' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_2_1
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_1.2.1
+    - safe_browsing
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SafeBrowsingAllowlistDomains': []}) }}"
+
+- name: "1.2.2 | PATCH | Ensure 'Safe Browsing Protection Level' is set to 'Enabled: Safe Browsing is active in the standard mode.' or higher"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_1_2_2
+    - chrome_win_cis_safe_browsing_protection_level is not none
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_1.2.2
+    - safe_browsing
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SafeBrowsingProtectionLevel': chrome_win_cis_safe_browsing_protection_level}) }}"

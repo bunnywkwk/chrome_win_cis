@@ -1,0 +1,24 @@
+---
+# One list policy: chrome_win_cis_list.key = policy name, chrome_win_cis_list.value = its items.
+# Stored like Group Policy does it: subkey <policy> with values 1, 2, 3 ... (empty list = no values).
+- name: "POST | AUDIT | Read the current items of {{ chrome_win_cis_list.key }}"
+  ansible.windows.win_reg_stat:
+    path: "{{ chrome_win_cis_policy_key }}\\{{ chrome_win_cis_list.key }}"
+  register: discovered_chrome_win_cis_list
+
+- name: "POST | PATCH | Write the items of {{ chrome_win_cis_list.key }}"
+  ansible.windows.win_regedit:
+    path: "{{ chrome_win_cis_policy_key }}\\{{ chrome_win_cis_list.key }}"
+    name: "{{ ansible_loop.index }}"
+    data: "{{ item }}"
+    type: string
+  loop: "{{ chrome_win_cis_list.value }}"
+  loop_control:
+    extended: true
+
+- name: "POST | PATCH | Remove items no longer in {{ chrome_win_cis_list.key }}"
+  ansible.windows.win_regedit:
+    path: "{{ chrome_win_cis_policy_key }}\\{{ chrome_win_cis_list.key }}"
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ discovered_chrome_win_cis_list.properties | default({}) | list | difference(range(1, chrome_win_cis_list.value | length + 1) | map('string') | list) }}"

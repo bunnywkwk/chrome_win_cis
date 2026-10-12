@@ -1,0 +1,5 @@
+.ansible/
+cis-pdf/
+cis-spreadsheet/
+*.pdf
+*.xlsx

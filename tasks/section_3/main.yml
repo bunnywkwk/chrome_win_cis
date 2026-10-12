@@ -1,0 +1,12 @@
+---
+- name: "SECTION 3 | 3.1 Content settings"
+  ansible.builtin.import_tasks:
+    file: cis_3.1.x.yml
+
+- name: "SECTION 3 | 3.2 Google Cast"
+  ansible.builtin.import_tasks:
+    file: cis_3.2.x.yml
+
+- name: "SECTION 3 | 3.x Privacy"
+  ansible.builtin.import_tasks:
+    file: cis_3.x.yml

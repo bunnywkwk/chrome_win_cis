@@ -1,0 +1,182 @@
+---
+- name: "3.3 | PATCH | Ensure 'Allow websites to query for available payment methods' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_3
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.3
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'PaymentMethodQueryEnabled': false}) }}"
+
+- name: "3.4 | PATCH | Ensure 'Block third party cookies' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_4
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.4
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'BlockThirdPartyCookies': true}) }}"
+
+- name: "3.5 | PATCH | Ensure 'Browser sign in settings' is set to 'Enabled: Disabled browser sign-in'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_3_5
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_3.5
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'BrowserSignin': 0}) }}"
+
+- name: "3.6 | PATCH | Ensure 'Control how Chrome Cleanup reports data to Google' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_6
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.6
+    - not_applicable
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ChromeCleanupReportingEnabled': false}) }}"
+
+- name: "3.7 | PATCH | Ensure 'Disable synchronization of data with Google' is set to 'Enabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_7
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.7
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SyncDisabled': true}) }}"
+
+- name: "3.8 | PATCH | Ensure 'Enable alternate error pages' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_8
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.8
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AlternateErrorPagesEnabled': false}) }}"
+
+- name: "3.9 | PATCH | Ensure 'Enable deleting browser and download history' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_9
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.9
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AllowDeletingBrowserHistory': false}) }}"
+
+- name: "3.10 | PATCH | Ensure 'Enable predict network actions` is set to 'Enabled: Do not predict actions on any network connection'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_10
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.10
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'NetworkPredictionOptions': 2}) }}"
+
+- name: "3.11 | PATCH | Ensure 'Enable or disable spell checking web service' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_11
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.11
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SpellCheckServiceEnabled': false}) }}"
+
+- name: "3.12 | PATCH | Ensure 'Enable reporting of usage and crash-related data' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_12
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.12
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'MetricsReportingEnabled': false}) }}"
+
+- name: "3.13 | PATCH | Ensure 'Enable Safe Browsing for trusted sources' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_13
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.13
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SafeBrowsingForTrustedSourcesEnabled': false}) }}"
+
+- name: "3.14 | PATCH | Ensure 'Enable search suggestions' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_3_14
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_3.14
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SearchSuggestEnabled': false}) }}"
+
+- name: "3.15 | PATCH | Ensure 'Enable Translate' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_3_15
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_3.15
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'TranslateEnabled': false}) }}"
+
+- name: "3.16 | PATCH | Ensure 'Enable URL-keyed anonymized data collection' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_3_16
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_3.16
+    - privacy
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'UrlKeyedAnonymizedDataCollectionEnabled': false}) }}"

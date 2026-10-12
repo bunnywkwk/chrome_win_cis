@@ -1,0 +1,93 @@
+---
+- name: "2.8.1 | PATCH | Ensure 'Allow remote access connections to this machine' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_8_1
+    - chrome_win_cis_remote_access_connections is not none
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_2.8.1
+    - remote_access
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteAccessHostAllowRemoteAccessConnections': chrome_win_cis_remote_access_connections}) }}"
+
+- name: "2.8.2 | PATCH | Ensure 'Allow remote users to interact with elevated windows in remote assistance sessions' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_8_2
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.8.2
+    - remote_access
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteAccessHostAllowUiAccessForRemoteAssistance': false}) }}"
+
+- name: "2.8.3 | PATCH | Ensure 'Configure the required domain names for remote access clients' is set to 'Enabled'  with a domain defined"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_8_3
+    - chrome_win_cis_remote_access_client_domains | length > 0
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_2.8.3
+    - remote_access
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteAccessHostClientDomainList': chrome_win_cis_remote_access_client_domains}) }}"
+
+- name: "2.8.4 | PATCH | Ensure 'Enable curtaining of remote access hosts' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_8_4
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.8.4
+    - remote_access
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteAccessHostRequireCurtain': false}) }}"
+
+- name: "2.8.5 | PATCH | Ensure 'Enable firewall traversal from remote access host' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_8_5
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.8.5
+    - remote_access
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteAccessHostFirewallTraversal': false}) }}"
+
+- name: "2.8.6 | PATCH | Ensure 'Enable or disable PIN-less authentication for remote access hosts' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_8_6
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.8.6
+    - remote_access
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteAccessHostAllowClientPairing': false}) }}"
+
+- name: "2.8.7 | PATCH | Ensure 'Enable the use of relay servers by the remote access host' is set to 'Disabled'."
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_8_7
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.8.7
+    - remote_access
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'RemoteAccessHostAllowRelayedConnection': false}) }}"

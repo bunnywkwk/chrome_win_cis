@@ -1,0 +1,4 @@
+---
+- name: "SECTION 5 | 5.x Forensics"
+  ansible.builtin.import_tasks:
+    file: cis_5.x.yml

@@ -1,0 +1,13 @@
+---
+- name: "2.10.1 | PATCH | Ensure 'Allow automatic sign-in to Microsoft cloud identity providers' Is Enabled"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_10_1
+  tags:
+    - level1
+    - manual
+    - patch
+    - rule_2.10.1
+    - active_directory
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'CloudAPAuthEnabled': true}) }}"

@@ -1,0 +1,131 @@
+---
+- name: "4.3 | PATCH | Ensure 'Allow invocation of file selection dialogs' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_3
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.3
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AllowFileSelectionDialogs': false}) }}"
+
+- name: "4.4 | PATCH | Ensure 'Allow or deny audio capture' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_4
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.4
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AudioCaptureAllowed': false}) }}"
+
+- name: "4.5 | PATCH | Ensure 'Allow or deny video capture' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_5
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.5
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'VideoCaptureAllowed': false}) }}"
+
+- name: "4.6 | PATCH | Ensure 'Allow user feedback' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_4_6
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_4.6
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'UserFeedbackAllowed': false}) }}"
+
+- name: "4.7 | PATCH | Ensure 'Controls the mode of DNS-over-HTTPS' is set to 'Enabled: DNS-over-HTTPS without insecure fallback'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_7
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.7
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DnsOverHttpsMode': 'secure'}) }}"
+
+- name: "4.8 | PATCH | Ensure 'Enable AutoFill for addresses' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_8
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.8
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AutofillAddressEnabled': false}) }}"
+
+- name: "4.9 | PATCH | Ensure 'Enable AutoFill for credit cards' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_4_9
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_4.9
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AutofillCreditCardEnabled': false}) }}"
+
+- name: "4.10 | PATCH | Ensure 'Import saved passwords from default browser on first run' is set to 'Disabled'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_4_10
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_4.10
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ImportSavedPasswords': false}) }}"
+
+- name: "4.11 | PATCH | Ensure 'List of types that should be excluded from synchronization' is set to 'Enabled: passwords'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_4_11
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_4.11
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'SyncTypesListDisabled': ['passwords']}) }}"
+
+- name: "4.12 | PATCH | Ensure 'Allow or deny screen capture' is set to 'Disabled'"
+  # same policy as 4.1.1, follows chrome_win_cis_rule_4_1_1
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_4_1_1
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_4.12
+    - data_loss_prevention
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ScreenCaptureAllowed': false}) }}"

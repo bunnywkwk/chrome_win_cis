@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: "Aeron Trainee at AIRNAV"
+  description: "Harden Google Chrome on Windows 10/11 to the CIS Google Chrome Benchmark v3.0.0 (policy registry keys)"
+  license: MIT
+  role_name: chrome_win_cis
+  namespace: bunnywkwk
+  min_ansible_version: "2.16.1"
+  platforms:
+    - name: Windows
+      versions:
+        - all
+  galaxy_tags:
+    - security
+    - hardening
+    - compliance
+    - benchmark
+    - cis
+    - chrome
+    - browser
+    - windows
+dependencies: []

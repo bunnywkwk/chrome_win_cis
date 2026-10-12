@@ -1,0 +1,13 @@
+---
+- name: "2.4.1 | PATCH | Ensure 'Supported authentication schemes' is set to 'Enabled: ntlm, negotiate'"
+  when:
+    - chrome_win_cis_level_2
+    - chrome_win_cis_rule_2_4_1
+  tags:
+    - level2
+    - automated
+    - patch
+    - rule_2.4.1
+    - http_auth
+  ansible.builtin.set_fact:
+    chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'AuthSchemes': 'ntlm,negotiate'}) }}"

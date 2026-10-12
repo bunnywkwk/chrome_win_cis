@@ -1,0 +1,32 @@
+---
+- name: "2.1.1 | PATCH | Ensure 'Update policy override' is set to 'Enabled' with 'Always allow updates (recommended)' or 'Automatic silent updates' specified"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_1_1
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.1.1
+    - google_update
+  ansible.windows.win_regedit:
+    path: "{{ chrome_win_cis_update_key }}"
+    name: "Update{8A69D345-D564-463C-AFF1-A69D9E530F96}"
+    data: "{{ chrome_win_cis_update_policy }}"
+    type: dword
+
+- name: "2.1.2 | PATCH | Ensure 'Auto-update check period override' is set to any value except '0'"
+  when:
+    - chrome_win_cis_level_1
+    - chrome_win_cis_rule_2_1_2
+  tags:
+    - level1
+    - automated
+    - patch
+    - rule_2.1.2
+    - google_update
+  ansible.windows.win_regedit:
+    path: "{{ chrome_win_cis_update_key }}"
+    name: AutoUpdateCheckPeriodMinutes
+    data: "{{ chrome_win_cis_update_check_minutes }}"
+    type: dword
