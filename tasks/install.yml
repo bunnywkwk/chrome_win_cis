@@ -1,14 +1,7 @@
 ---
+# Chrome only: Chromium has no official Windows installer
 - name: "INSTALL | Google Chrome | Install the Enterprise MSI"
-  when: chrome_win_cis_installed | length == 0
   ansible.windows.win_package:
     path: "{{ chrome_win_cis_msi_url }}"
-    creates_path: "{{ chrome_win_cis_exe_paths[0] }}"
+    creates_path: "{{ chrome_win_cis_chrome_exes[0] }}"
     state: present
-
-- name: "INSTALL | Google Chrome | Find chrome.exe again"
-  ansible.windows.win_stat:
-    path: "{{ item }}"
-    get_checksum: false
-  loop: "{{ chrome_win_cis_exe_paths }}"
-  register: discovered_chrome_win_cis_exe

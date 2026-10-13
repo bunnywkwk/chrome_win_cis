@@ -95,12 +95,13 @@
   when:
     - chrome_win_cis_level_1
     - chrome_win_cis_rule_1_10
+    - 67 <= chrome_win_cis_browser_major | int <= 127   # supported_on chrome.*:67-127
   tags:
     - level1
     - automated
     - patch
     - rule_1.10
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'CertificateTransparencyEnforcementDisabledForLegacyCas': []}) }}"
 
@@ -212,12 +213,13 @@
   when:
     - chrome_win_cis_level_1
     - chrome_win_cis_rule_1_19
+    - 65 <= chrome_win_cis_browser_major | int <= 135   # supported_on chrome.win:65-135
   tags:
     - level1
     - automated
     - patch
     - rule_1.19
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ThirdPartyBlockingEnabled': true}) }}"
 

@@ -11,23 +11,48 @@
       - ansible_facts['os_family'] == 'Windows'
     fail_msg: "Unsupported target: {{ ansible_facts['distribution'] }}. chrome_win_cis supports Windows only."
 
-- name: "PRELIM | AUDIT | Find chrome.exe"
+- name: "PRELIM | Install Google Chrome (opt-in)"
+  when: chrome_win_cis_install
+  ansible.builtin.import_tasks:
+    file: install.yml
+
+- name: "PRELIM | AUDIT | Find chrome.exe of Chrome and Chromium"
   ansible.windows.win_stat:
     path: "{{ item }}"
     get_checksum: false
-  loop: "{{ chrome_win_cis_exe_paths }}"
+  loop: "{{ chrome_win_cis_chrome_exes + chrome_win_cis_chromium_exes }}"
   register: discovered_chrome_win_cis_exe
 
-- name: "PRELIM | AUDIT | Stop when Chrome is not installed and install is off"
+# Chrome keeps each installed version in a folder next to chrome.exe, e.g. Application\155.0.8059.39
+- name: "PRELIM | AUDIT | Find the browser version folders"
+  when: chrome_win_cis_found_exes | length > 0
+  ansible.windows.win_find:
+    paths: "{{ chrome_win_cis_found_exes | map('win_dirname') | list }}"
+    file_type: directory
+    patterns: '^\d+\.\d+\.\d+\.\d+$'
+    use_regex: true
+  register: discovered_chrome_win_cis_versions
+
+- name: "PRELIM | AUDIT | Discover installed browsers"
+  ansible.builtin.set_fact:
+    chrome_win_cis_chrome_found: "{{ chrome_win_cis_found_exes | intersect(chrome_win_cis_chrome_exes) | length > 0 }}"
+    chrome_win_cis_chromium_found: "{{ chrome_win_cis_found_exes | intersect(chrome_win_cis_chromium_exes) | length > 0 }}"
+    # Lowest major version found, e.g. 143 for Chrome 143 + Chromium 154 (0 = none)
+    chrome_win_cis_browser_major: >-
+      {{ discovered_chrome_win_cis_versions.files | default([]) | map(attribute='filename')
+         | map('regex_replace', '[.].*', '') | map('int') | min | default(0, true) }}
+
+- name: "PRELIM | AUDIT | Stop when no browser is installed and install is off"
   when:
-    - chrome_win_cis_installed | length == 0
+    - not chrome_win_cis_chrome_found
+    - not chrome_win_cis_chromium_found
     - not chrome_win_cis_install
   block:
-    - name: "PRELIM | AUDIT | Stop when Chrome is not installed and install is off | Report"
+    - name: "PRELIM | AUDIT | Stop when no browser is installed and install is off | Report"
       ansible.builtin.debug:
-        msg: "No Google Chrome on {{ inventory_hostname }} and chrome_win_cis_install is false: nothing to harden."
+        msg: "No Google Chrome or Chromium on {{ inventory_hostname }} and chrome_win_cis_install is false: nothing to harden."
 
-    - name: "PRELIM | AUDIT | Stop when Chrome is not installed and install is off | End this host"
+    - name: "PRELIM | AUDIT | Stop when no browser is installed and install is off | End this host"
       ansible.builtin.meta: end_host
 
 - name: "PRELIM | AUDIT | Start the policy set"

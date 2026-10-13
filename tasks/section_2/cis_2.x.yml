@@ -160,12 +160,13 @@
   when:
     - chrome_win_cis_level_2
     - chrome_win_cis_rule_2_23
+    - 112 <= chrome_win_cis_browser_major | int <= 127   # supported_on chrome.win:112-127
   tags:
     - level2
     - automated
     - patch
     - rule_2.23
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'EnforceLocalAnchorConstraintsEnabled': true}) }}"
 
@@ -239,12 +240,13 @@
   when:
     - chrome_win_cis_level_1
     - chrome_win_cis_rule_2_29
+    - 114 <= chrome_win_cis_browser_major | int <= 123   # supported_on chrome.*:114-123
   tags:
     - level1
     - automated
     - patch
     - rule_2.29
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'InsecureHashesInTLSHandshakesEnabled': false}) }}"
 

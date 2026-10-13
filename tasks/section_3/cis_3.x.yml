@@ -42,12 +42,13 @@
   when:
     - chrome_win_cis_level_1
     - chrome_win_cis_rule_3_6
+    - 68 <= chrome_win_cis_browser_major | int <= 118   # supported_on chrome.win:68-118
   tags:
     - level1
     - automated
     - patch
     - rule_3.6
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ChromeCleanupReportingEnabled': false}) }}"
 

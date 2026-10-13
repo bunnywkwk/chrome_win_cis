@@ -4,21 +4,28 @@
 chrome_win_cis_benchmark: "CIS Google Chrome Benchmark v3.0.0"
 
 # Registry keys behind the Group Policy settings named in the benchmark's Audit sections
-chrome_win_cis_policy_key: 'HKLM:\SOFTWARE\Policies\Google\Chrome'
+chrome_win_cis_chrome_key: 'HKLM:\SOFTWARE\Policies\Google\Chrome'
+chrome_win_cis_chromium_key: 'HKLM:\SOFTWARE\Policies\Chromium'
 chrome_win_cis_update_key: 'HKLM:\SOFTWARE\Policies\Google\Update'
 
 # Google's 64-bit Enterprise MSI (always the newest stable; Google publishes no older MSIs)
 chrome_win_cis_msi_url: https://dl.google.com/chrome/install/googlechromestandaloneenterprise64.msi
 
-# Where chrome.exe lives: 64-bit installs first, older 32-bit installs second
-chrome_win_cis_exe_paths:
+# Where chrome.exe lives: Chrome 64-bit first (install.yml uses it), older 32-bit second; Chromium system-wide install
+chrome_win_cis_chrome_exes:
   - 'C:\Program Files\Google\Chrome\Application\chrome.exe'
   - 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+chrome_win_cis_chromium_exes:
+  - 'C:\Program Files\Chromium\Application\chrome.exe'
 
-# Path of the installed chrome.exe, empty = not installed (prelim checks its length)
-chrome_win_cis_installed: >-
-  {{ discovered_chrome_win_cis_exe.results | default([]) | selectattr('stat.exists')
-     | map(attribute='item') | first | default('') }}
+# chrome.exe paths found by prelim.yml
+chrome_win_cis_found_exes: >-
+  {{ discovered_chrome_win_cis_exe.results | default([]) | selectattr('stat.exists') | map(attribute='item') | list }}
+
+# Policy keys of the browsers found by prelim.yml; post.yml writes the same policies into each one
+chrome_win_cis_policy_keys: >-
+  {{ ([chrome_win_cis_chrome_key] if chrome_win_cis_chrome_found else [])
+   + ([chrome_win_cis_chromium_key] if chrome_win_cis_chromium_found else []) }}
 
 # post.yml splits the collected policies by how the registry stores them:
 # lists (e.g. ["*"]) become a subkey with values 1, 2, 3 ...; everything else is one value

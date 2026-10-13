@@ -1,14 +1,9 @@
 ---
-- name: PRELIM | Checks, Chrome detection, start the policy set
+- name: PRELIM | Checks, optional install, browser discovery, start the policy set
   ansible.builtin.import_tasks:
     file: prelim.yml
   tags:
     - always
-
-- name: INSTALL | Google Chrome (opt-in)
-  when: chrome_win_cis_install
-  ansible.builtin.import_tasks:
-    file: install.yml
 
 - name: SECTION 1 | Enforced Defaults
   when: chrome_win_cis_section1

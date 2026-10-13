@@ -3,11 +3,12 @@
   when:
     - chrome_win_cis_level_1
     - chrome_win_cis_rule_2_9_1
+    - 113 <= chrome_win_cis_browser_major | int <= 152   # supported_on chrome.*:113-152
   tags:
     - level1
     - manual
     - patch
     - rule_2.9.1
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'FirstPartySetsEnabled': false}) }}"

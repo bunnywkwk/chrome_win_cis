@@ -3,7 +3,9 @@
 
 ## Install
 
-# Install Google Chrome (Enterprise MSI from Google); false = harden an existing install only
+# The role finds Google Chrome and Chromium (system-wide installs) and hardens every one it finds.
+# Install Google Chrome (Enterprise MSI from Google, newest stable); false = harden what is installed only.
+# Chromium has no official Windows installer, so it is never installed by the role.
 chrome_win_cis_install: false
 
 ## Profiles
@@ -457,39 +459,39 @@ chrome_win_cis_rule_5_2: true
 # 5.3 Keep a 239 MB disk cache
 chrome_win_cis_rule_5_3: true
 
-## Not applicable on current Chrome
-# On by default, like every rule. These policies were removed from Chrome, so chrome://policy shows them as
-# "Unknown policy"; set one to false in group_vars to stop writing it.
+## Removed from Chrome: applied only on browser versions that still have the policy
+# The role checks the browser version against the policy's "supported_on" range in Chromium's policy
+# definitions (same ranges as chrome_cis D17). Chrome and Chromium share version numbers.
+# With Chrome and Chromium on one host, the lower version counts. false = never apply.
 
-# 1.10 No legacy CAs exempt from Certificate Transparency
+# 1.10 No legacy CAs exempt from Certificate Transparency (versions 67-127)
 chrome_win_cis_rule_1_10: true
 
-# 1.19 Block third-party software injection
+# 1.19 Block third-party software injection (versions 65-135)
 chrome_win_cis_rule_1_19: true
 
-# 2.3.4 Partition third-party storage by top-level site
+# 2.3.4 Partition third-party storage by top-level site (versions 113-145)
 chrome_win_cis_rule_2_3_4: true
 
-# 2.3.5 Sites where third-party storage partitioning is turned off
+# 2.3.5 Sites where third-party storage partitioning is turned off (versions 113-145)
 chrome_win_cis_rule_2_3_5: true
-
 # 2.3.5 value: e.g. ["https://example.com"]
 chrome_win_cis_third_party_storage_blocked_origins: []
 
-# 2.3.6 Manifest V2 extensions only when forced by the admin
+# 2.3.6 Manifest V2 extensions only when forced by the admin (versions 110-138)
 chrome_win_cis_rule_2_3_6: true
 
-# 2.7.1 No Google Cloud Print proxy
+# 2.7.1 No Google Cloud Print proxy (versions 17-144)
 chrome_win_cis_rule_2_7_1: true
 
-# 2.9.1 No First-Party Sets
+# 2.9.1 No First-Party Sets (versions 113-152)
 chrome_win_cis_rule_2_9_1: true
 
-# 2.23 Enforce constraints in local trust anchors
+# 2.23 Enforce constraints in local trust anchors (versions 112-127)
 chrome_win_cis_rule_2_23: true
 
-# 2.29 No insecure hashes in TLS handshakes
+# 2.29 No insecure hashes in TLS handshakes (versions 114-123)
 chrome_win_cis_rule_2_29: true
 
-# 3.6 No Chrome Cleanup reports to Google
+# 3.6 No Chrome Cleanup reports to Google (versions 68-118)
 chrome_win_cis_rule_3_6: true

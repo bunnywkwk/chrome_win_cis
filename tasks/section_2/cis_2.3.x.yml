@@ -56,12 +56,13 @@
   when:
     - chrome_win_cis_level_2
     - chrome_win_cis_rule_2_3_4
+    - 113 <= chrome_win_cis_browser_major | int <= 145   # supported_on chrome.*:113-145
   tags:
     - level2
     - automated
     - patch
     - rule_2.3.4
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'DefaultThirdPartyStoragePartitioningSetting': 2}) }}"
 
@@ -69,13 +70,14 @@
   when:
     - chrome_win_cis_level_1
     - chrome_win_cis_rule_2_3_5
+    - 113 <= chrome_win_cis_browser_major | int <= 145   # supported_on chrome.*:113-145
     - chrome_win_cis_third_party_storage_blocked_origins | length > 0
   tags:
     - level1
     - manual
     - patch
     - rule_2.3.5
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ThirdPartyStoragePartitioningBlockedForOrigins': chrome_win_cis_third_party_storage_blocked_origins}) }}"
 
@@ -83,12 +85,13 @@
   when:
     - chrome_win_cis_level_2
     - chrome_win_cis_rule_2_3_6
+    - 110 <= chrome_win_cis_browser_major | int <= 138   # supported_on chrome.*:110-138
   tags:
     - level2
     - automated
     - patch
     - rule_2.3.6
-    - not_applicable
+    - version_gated
   ansible.builtin.set_fact:
     chrome_win_cis_policies: "{{ chrome_win_cis_policies | combine({'ExtensionManifestV2Availability': 3}) }}"
 
